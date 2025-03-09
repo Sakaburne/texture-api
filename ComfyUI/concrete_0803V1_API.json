@@ -1,0 +1,696 @@
+{
+  "297": {
+    "inputs": {
+      "filename_prefix": "PBR_Diffuse",
+      "images": [
+        "569",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Enregistrer Image"
+    }
+  },
+  "313": {
+    "inputs": {
+      "ckpt_name": "concrete.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Charger Point de Contrôle"
+    }
+  },
+  "531": {
+    "inputs": {
+      "image": "Matext_101 copie (1).jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Charger Image"
+    }
+  },
+  "544": {
+    "inputs": {
+      "model": [
+        "568",
+        0
+      ],
+      "clip": [
+        "552",
+        0
+      ],
+      "positive": [
+        "699",
+        0
+      ],
+      "negative": [
+        "694",
+        0
+      ],
+      "vae": [
+        "313",
+        2
+      ]
+    },
+    "class_type": "ToBasicPipe",
+    "_meta": {
+      "title": "ToBasicPipe"
+    }
+  },
+  "548": {
+    "inputs": {
+      "seed": 57,
+      "steps": 25,
+      "cfg": 9,
+      "sampler_name": "dpmpp_2m_sde",
+      "scheduler": "karras",
+      "denoise": [
+        "677",
+        0
+      ],
+      "noise_mode": "GPU(=A1111)",
+      "batch_seed_mode": "incremental",
+      "variation_seed": 0,
+      "variation_strength": 0.09,
+      "internal_seed": 0,
+      "basic_pipe": [
+        "544",
+        0
+      ],
+      "latent_image": [
+        "592",
+        0
+      ]
+    },
+    "class_type": "KSamplerPipe //Inspire",
+    "_meta": {
+      "title": "KSampler [pipe] (inspire)"
+    }
+  },
+  "551": {
+    "inputs": {
+      "model": "wd-vit-tagger-v3",
+      "threshold": 0.35,
+      "character_threshold": 0.85,
+      "replace_underscore": false,
+      "trailing_comma": false,
+      "exclude_tags": "",
+      "tags": "monochrome, male_focus, greyscale, multiple_boys, 2boys, no_humans, traditional_media, couple, yaoi, colored_pencil_\\(medium\\)",
+      "image": [
+        "531",
+        0
+      ]
+    },
+    "class_type": "WD14Tagger|pysssss",
+    "_meta": {
+      "title": "WD14 Tagger 🐍"
+    }
+  },
+  "552": {
+    "inputs": {
+      "text": [
+        "676",
+        0
+      ],
+      "clip": [
+        "313",
+        1
+      ]
+    },
+    "class_type": "ConditionText",
+    "_meta": {
+      "title": "ConditionText"
+    }
+  },
+  "553": {
+    "inputs": {
+      "CLIP": [
+        "313",
+        1
+      ]
+    },
+    "class_type": "Anything Everywhere",
+    "_meta": {
+      "title": "CLIP"
+    }
+  },
+  "556": {
+    "inputs": {
+      "VAE": [
+        "313",
+        2
+      ]
+    },
+    "class_type": "Anything Everywhere",
+    "_meta": {
+      "title": "VAE"
+    }
+  },
+  "558": {
+    "inputs": {
+      "images": [
+        "569",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Aperçu Image"
+    }
+  },
+  "566": {
+    "inputs": {
+      "value": "texture, ground, peepbles, seamless, from_above, high quality, 4k, asset, 3d, pbr"
+    },
+    "class_type": "Text Input [DVB]",
+    "_meta": {
+      "title": "POS"
+    }
+  },
+  "567": {
+    "inputs": {
+      "string1": [
+        "566",
+        0
+      ],
+      "string2": [
+        "551",
+        0
+      ],
+      "delimiter": " "
+    },
+    "class_type": "JoinStrings",
+    "_meta": {
+      "title": "Join Strings"
+    }
+  },
+  "568": {
+    "inputs": {
+      "tiling": "enable",
+      "copy_model": "Make a copy",
+      "model": [
+        "313",
+        0
+      ]
+    },
+    "class_type": "SeamlessTile",
+    "_meta": {
+      "title": "Seamless Tile"
+    }
+  },
+  "569": {
+    "inputs": {
+      "tiling": "enable",
+      "samples": [
+        "548",
+        0
+      ],
+      "vae": [
+        "313",
+        2
+      ]
+    },
+    "class_type": "CircularVAEDecode",
+    "_meta": {
+      "title": "Circular VAE Decode (tile)"
+    }
+  },
+  "571": {
+    "inputs": {
+      "mode": "Color to Normals",
+      "color_to_normals_overlap": "SMALL",
+      "normals_to_curvature_blur_radius": "SMALLEST",
+      "normals_to_height_seamless": true,
+      "image": [
+        "569",
+        0
+      ]
+    },
+    "class_type": "Deep Bump (mtb)",
+    "_meta": {
+      "title": "NORMAL"
+    }
+  },
+  "572": {
+    "inputs": {
+      "images": [
+        "571",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Aperçu Image"
+    }
+  },
+  "573": {
+    "inputs": {
+      "mode": "Normals to Curvature",
+      "color_to_normals_overlap": "SMALL",
+      "normals_to_curvature_blur_radius": "SMALLEST",
+      "normals_to_height_seamless": true,
+      "image": [
+        "569",
+        0
+      ]
+    },
+    "class_type": "Deep Bump (mtb)",
+    "_meta": {
+      "title": "BUMP"
+    }
+  },
+  "574": {
+    "inputs": {
+      "images": [
+        "573",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Aperçu Image"
+    }
+  },
+  "575": {
+    "inputs": {
+      "mode": "Normals to Height",
+      "color_to_normals_overlap": "SMALL",
+      "normals_to_curvature_blur_radius": "SMALLEST",
+      "normals_to_height_seamless": true,
+      "image": [
+        "569",
+        0
+      ]
+    },
+    "class_type": "Deep Bump (mtb)",
+    "_meta": {
+      "title": "DISP"
+    }
+  },
+  "576": {
+    "inputs": {
+      "images": [
+        "575",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Aperçu Image"
+    }
+  },
+  "578": {
+    "inputs": {
+      "rescale_factor": 0.25,
+      "grid_options": "2x2",
+      "image": [
+        "569",
+        0
+      ]
+    },
+    "class_type": "CR Seamless Checker",
+    "_meta": {
+      "title": "📱 CR Seamless Checker"
+    }
+  },
+  "579": {
+    "inputs": {
+      "rescale_factor": 0.25,
+      "grid_options": "2x2",
+      "image": [
+        "571",
+        0
+      ]
+    },
+    "class_type": "CR Seamless Checker",
+    "_meta": {
+      "title": "📱 CR Seamless Checker"
+    }
+  },
+  "580": {
+    "inputs": {
+      "rescale_factor": 0.25,
+      "grid_options": "2x2",
+      "image": [
+        "573",
+        0
+      ]
+    },
+    "class_type": "CR Seamless Checker",
+    "_meta": {
+      "title": "📱 CR Seamless Checker"
+    }
+  },
+  "581": {
+    "inputs": {
+      "rescale_factor": 0.25,
+      "grid_options": "2x2",
+      "image": [
+        "575",
+        0
+      ]
+    },
+    "class_type": "CR Seamless Checker",
+    "_meta": {
+      "title": "📱 CR Seamless Checker"
+    }
+  },
+  "584": {
+    "inputs": {
+      "images": [
+        "622",
+        1
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Aperçu Image"
+    }
+  },
+  "585": {
+    "inputs": {
+      "rescale_factor": 0.25,
+      "grid_options": "2x2",
+      "image": [
+        "622",
+        1
+      ]
+    },
+    "class_type": "CR Seamless Checker",
+    "_meta": {
+      "title": "📱 CR Seamless Checker"
+    }
+  },
+  "588": {
+    "inputs": {
+      "width": 1080,
+      "height": 1080,
+      "image": [
+        "569",
+        0
+      ]
+    },
+    "class_type": "ImageSizeInfo",
+    "_meta": {
+      "title": "ImageSizeInfo"
+    }
+  },
+  "591": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "scale_by": 1,
+      "image": [
+        "531",
+        0
+      ]
+    },
+    "class_type": "ImageScaleBy",
+    "_meta": {
+      "title": "Agrandir l'image par"
+    }
+  },
+  "592": {
+    "inputs": {
+      "pixels": [
+        "591",
+        0
+      ],
+      "vae": [
+        "313",
+        2
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  },
+  "621": {
+    "inputs": {
+      "preview3d": null,
+      "color_map": [
+        "569",
+        0
+      ],
+      "displacement_map": [
+        "575",
+        0
+      ],
+      "normal_map": [
+        "571",
+        0
+      ],
+      "ao_map": [
+        "622",
+        1
+      ]
+    },
+    "class_type": "TextureViewer",
+    "_meta": {
+      "title": "TextureViewer"
+    }
+  },
+  "622": {
+    "inputs": {
+      "strength": 1,
+      "radius": 30,
+      "ao_blur": 2.5,
+      "specular_threshold": 25,
+      "enable_specular_masking": "True",
+      "tile_size": 1,
+      "images": [
+        "569",
+        0
+      ],
+      "depth_images": [
+        "623",
+        0
+      ]
+    },
+    "class_type": "Image SSAO (Ambient Occlusion)",
+    "_meta": {
+      "title": "SSAO"
+    }
+  },
+  "623": {
+    "inputs": {
+      "ckpt_name": "depth_anything_vitl14.pth",
+      "resolution": 512,
+      "image": [
+        "569",
+        0
+      ]
+    },
+    "class_type": "DepthAnythingPreprocessor",
+    "_meta": {
+      "title": "Depth Anything"
+    }
+  },
+  "648": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "crop_w": 0,
+      "crop_h": 0,
+      "target_width": 1024,
+      "target_height": 1024,
+      "text_g": [
+        "649",
+        0
+      ],
+      "text_l": [
+        "649",
+        0
+      ],
+      "clip": [
+        "313",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncodeSDXL",
+    "_meta": {
+      "title": "CLIPTextEncodeSDXL"
+    }
+  },
+  "649": {
+    "inputs": {
+      "value": "blur, dark"
+    },
+    "class_type": "Text Input [DVB]",
+    "_meta": {
+      "title": "NEG"
+    }
+  },
+  "663": {
+    "inputs": {
+      "filename_prefix": "PBR_NORMAL",
+      "images": [
+        "571",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Enregistrer Image"
+    }
+  },
+  "664": {
+    "inputs": {
+      "filename_prefix": "PBR_BUMP",
+      "images": [
+        "573",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Enregistrer Image"
+    }
+  },
+  "665": {
+    "inputs": {
+      "filename_prefix": "PBR_DISP",
+      "images": [
+        "575",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Enregistrer Image"
+    }
+  },
+  "666": {
+    "inputs": {
+      "filename_prefix": "PBR_AO",
+      "images": [
+        "622",
+        1
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Enregistrer Image"
+    }
+  },
+  "676": {
+    "inputs": {
+      "boolean": true,
+      "on_true": [
+        "567",
+        0
+      ],
+      "on_false": [
+        "566",
+        0
+      ]
+    },
+    "class_type": "Switch any [Crystools]",
+    "_meta": {
+      "title": "ADD WD14 to the prompt?"
+    }
+  },
+  "677": {
+    "inputs": {
+      "Xi": 1,
+      "Xf": 1,
+      "isfloatX": 1
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "Input Accuracy VS Freedom"
+    }
+  },
+  "678": {
+    "inputs": {
+      "preset": "PLUS (high strength)",
+      "model": [
+        "313",
+        0
+      ]
+    },
+    "class_type": "IPAdapterUnifiedLoader",
+    "_meta": {
+      "title": "IPAdapter Unified Loader"
+    }
+  },
+  "680": {
+    "inputs": {
+      "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+    },
+    "class_type": "CLIPVisionLoader",
+    "_meta": {
+      "title": "Charger CLIP Vision"
+    }
+  },
+  "694": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "313",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "695": {
+    "inputs": {
+      "upscale_model": [
+        "696",
+        0
+      ]
+    },
+    "class_type": "ImageUpscaleWithModel",
+    "_meta": {
+      "title": "Agrandir l'Image (à l'aide du Modèle)"
+    }
+  },
+  "696": {
+    "inputs": {
+      "model_name": "4xArtFaces_realplksr_dysample.pth"
+    },
+    "class_type": "UpscaleModelLoader",
+    "_meta": {
+      "title": "Charger le modèle de mise à l'échelle"
+    }
+  },
+  "697": {
+    "inputs": {
+      "upscale_model": [
+        "698",
+        0
+      ]
+    },
+    "class_type": "ImageUpscaleWithModel",
+    "_meta": {
+      "title": "Agrandir l'Image (à l'aide du Modèle)"
+    }
+  },
+  "698": {
+    "inputs": {
+      "model_name": "4xArtFaces_realplksr_dysample.pth"
+    },
+    "class_type": "UpscaleModelLoader",
+    "_meta": {
+      "title": "Charger le modèle de mise à l'échelle"
+    }
+  },
+  "699": {
+    "inputs": {
+      "text": "blue concrete",
+      "clip": [
+        "313",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  }
+}
