@@ -16,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-COMFYUI_SERVER = "witty-bushes-glow.loca.lt"  # Ta dernière URL Localtunnel
+COMFYUI_SERVER = "https://warm-mirrors-slide.loca.lt"  # Ta dernière URL Localtunnel
 
 async def open_websocket_connection():
     client_id = str(uuid.uuid4())
