@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 # Adresse de ComfyUI (on ajustera plus tard)
-COMFYUI_SERVER = "127.0.0.1:8188"  # Temporaire, à modifier si ComfyUI est hébergé
+COMFYUI_SERVER = "https://eager-eels-fall.loca.lt"  # Temporaire, à modifier si ComfyUI est hébergé
 
 async def open_websocket_connection():
     client_id = str(uuid.uuid4())
