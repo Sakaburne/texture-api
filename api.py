@@ -6,38 +6,44 @@ import requests
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+# Initialise l'application FastAPI
 app = FastAPI()
 
+# Ajoute le middleware CORS pour permettre les requêtes depuis Webflow
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://texture-06dbe8.webflow.io", "*"],
+    allow_origins=["https://texture-06dbe8.webflow.io", "*"],  # Autorise Webflow et tout origin pour tester
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["*"],  # Autorise toutes les méthodes pour éviter des erreurs 405
     allow_headers=["*"],
 )
 
-COMFYUI_SERVER = "https://thirty-masks-serve.loca.lt"  # Ta dernière URL Localtunnel
+# URL de ComfyUI (remplace par ta dernière URL Localtunnel ou l'URL interne Render)
+COMFYUI_SERVER = "https://thirty-masks-serve.loca.lt"  # Mets ici la dernière URL de Localtunnel ou "http://comfyui-internal:8000" si Render
 
+# Fonction pour ouvrir une connexion WebSocket à ComfyUI
 async def open_websocket_connection():
     client_id = str(uuid.uuid4())
     ws = await websockets.connect(f"ws://{COMFYUI_SERVER}/ws?clientId={client_id}")
     return ws, client_id
 
+# Route de test pour la racine
 @app.get("/")
 async def home():
     return {"message": "API ComfyUI pour génération de textures"}
 
+# Route pour générer une texture (méthode POST)
 @app.post("/generate-texture")
 async def generate_texture(material: str):
     try:
-        # Charge le workflow
+        # Test temporaire : confirme que le material est reçu
+        return {"message": f"Received material: {material}"}
+        # (Une fois testé, décommente et ajuste la logique ComfyUI ci-dessous)
+        '''
         with open("workflow.json", "r") as f:
             workflow = json.load(f)
-
-        # Remplace le checkpoint par le material reçu
         workflow["313"]["inputs"]["ckpt_name"] = material
 
-        # Envoie le workflow à ComfyUI
         ws, client_id = await open_websocket_connection()
         prompt = {"prompt": workflow, "client_id": client_id}
         response = requests.post(f"http://{COMFYUI_SERVER}/prompt", json=prompt)
@@ -60,9 +66,11 @@ async def generate_texture(material: str):
             "normal": output_images[1] if len(output_images) > 1 else "",
             "displacement": output_images[2] if len(output_images) > 2 else ""
         }
+        '''
     except Exception as e:
         return {"error": f"Erreur : {str(e)}"}
 
+# Fonction pour récupérer les images générées (à réintégrer après test)
 async def get_generated_images(prompt_id, ws):
     output_images = []
     while True:
