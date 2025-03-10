@@ -5,7 +5,7 @@ import websockets
 import requests
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel  # Ajout pour définir un modèle
+from pydantic import BaseModel
 
 # Modèle pour valider le corps de la requête
 class TextureRequest(BaseModel):
@@ -24,14 +24,14 @@ app.add_middleware(
 )
 
 # URL de ComfyUI
-COMFYUI_SERVER = "https://thirty-masks-serve.loca.lt"  # Remplace par ta dernière URL Localtunnel ou interne Render
+COMFYUI_SERVER = "https://thirty-masks-serve.loca.lt"  # Ta dernière URL Localtunnel
 
 # Route de test pour la racine
 @app.get("/")
 async def home():
     return {"message": "API ComfyUI pour génération de textures"}
 
-# Route pour générer une texture (accepte le JSON dans le corps)
+# Route pour générer une texture
 @app.post("/generate-texture")
 async def generate_texture(request: TextureRequest):
     try:
@@ -40,10 +40,6 @@ async def generate_texture(request: TextureRequest):
         if not material or not isinstance(material, str):
             return {"error": "Le paramètre 'material' doit être une chaîne non vide"}
         
-        # Test temporaire : confirme que le material est reçu
-        return {"message": f"Received material: {material}"}
-        # (Décommente pour réintégrer ComfyUI après test)
-        '''
         with open("workflow.json", "r") as f:
             workflow = json.load(f)
         workflow["313"]["inputs"]["ckpt_name"] = material
@@ -70,7 +66,6 @@ async def generate_texture(request: TextureRequest):
             "normal": output_images[1] if len(output_images) > 1 else "",
             "displacement": output_images[2] if len(output_images) > 2 else ""
         }
-        '''
     except Exception as e:
         return {"error": f"Erreur : {str(e)}"}
 
