@@ -5,40 +5,44 @@ import websockets
 import requests
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel  # Ajout pour définir un modèle
+
+# Modèle pour valider le corps de la requête
+class TextureRequest(BaseModel):
+    material: str
 
 # Initialise l'application FastAPI
 app = FastAPI()
 
-# Ajoute le middleware CORS pour permettre les requêtes depuis Webflow
+# Ajoute le middleware CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://texture-06dbe8.webflow.io", "*"],  # Autorise Webflow et tout origin pour tester
+    allow_origins=["https://texture-06dbe8.webflow.io", "*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Autorise toutes les méthodes pour éviter des erreurs 405
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# URL de ComfyUI (remplace par ta dernière URL Localtunnel ou l'URL interne Render)
-COMFYUI_SERVER = "https://thirty-masks-serve.loca.lt"  # Mets ici la dernière URL de Localtunnel ou "http://comfyui-internal:8000" si Render
-
-# Fonction pour ouvrir une connexion WebSocket à ComfyUI
-async def open_websocket_connection():
-    client_id = str(uuid.uuid4())
-    ws = await websockets.connect(f"ws://{COMFYUI_SERVER}/ws?clientId={client_id}")
-    return ws, client_id
+# URL de ComfyUI
+COMFYUI_SERVER = "https://thirty-masks-serve.loca.lt"  # Remplace par ta dernière URL Localtunnel ou interne Render
 
 # Route de test pour la racine
 @app.get("/")
 async def home():
     return {"message": "API ComfyUI pour génération de textures"}
 
-# Route pour générer une texture (méthode POST)
+# Route pour générer une texture (accepte le JSON dans le corps)
 @app.post("/generate-texture")
-async def generate_texture(material: str):
+async def generate_texture(request: TextureRequest):
     try:
+        material = request.material
+        # Vérifie si material est une chaîne non vide
+        if not material or not isinstance(material, str):
+            return {"error": "Le paramètre 'material' doit être une chaîne non vide"}
+        
         # Test temporaire : confirme que le material est reçu
         return {"message": f"Received material: {material}"}
-        # (Une fois testé, décommente et ajuste la logique ComfyUI ci-dessous)
+        # (Décommente pour réintégrer ComfyUI après test)
         '''
         with open("workflow.json", "r") as f:
             workflow = json.load(f)
@@ -70,7 +74,7 @@ async def generate_texture(material: str):
     except Exception as e:
         return {"error": f"Erreur : {str(e)}"}
 
-# Fonction pour récupérer les images générées (à réintégrer après test)
+# Fonction pour récupérer les images générées
 async def get_generated_images(prompt_id, ws):
     output_images = []
     while True:
@@ -91,3 +95,8 @@ async def get_generated_images(prompt_id, ws):
                                 output_images.append(img_url)
             break
     return output_images
+
+async def open_websocket_connection():
+    client_id = str(uuid.uuid4())
+    ws = await websockets.connect(f"ws://{COMFYUI_SERVER}/ws?clientId={client_id}")
+    return ws, client_id
